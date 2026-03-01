@@ -34,7 +34,7 @@
         </div>
         @endif
         <h4 class="date-text mb-3">28 September</h4>
-        <h1 class="main-title mb-3">Our Love Story</h1>
+        <h1 class="main-title mb-3">Fadhillah & Regina</h1>
         <p class="subtitle mb-4">Every month, every year, always you 💖</p>
 
         <a href="#content" class="btn btn-romantic">
