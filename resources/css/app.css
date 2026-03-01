@@ -1,0 +1,628 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
+/* ===============================
+   GLOBAL
+=================================*/
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #fdfaf6;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+}
+
+.section {
+    padding: 100px 0;
+}
+
+.title-section,
+.section-title,
+.main-title {
+    font-family: 'Playfair Display', serif;
+}
+
+/* ===============================
+   HERO CINEMATIC
+=================================*/
+.hero {
+    height: 100vh;
+    background:
+        linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.6)),
+        url('/public/images/hero.jpeg') no-repeat;
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    color: white;
+}
+
+.hero-content {
+    text-align: center;
+    animation: fadeUp 1.5s ease forwards;
+}
+
+.hero-content h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+}
+
+.hero-content p {
+    font-size: 1.2rem;
+    opacity: 0.9;
+}
+
+@keyframes fadeUp {
+    from {
+        opacity: 0;
+        transform: translateY(40px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ===============================
+   BUTTONS
+=================================*/
+.btn-open,
+.btn-romantic {
+    border: none;
+    padding: 12px 35px;
+    border-radius: 50px;
+    color: white;
+    transition: 0.3s ease;
+    font-weight: 500;
+}
+
+.btn-open {
+    background: #d4af37;
+}
+
+.btn-open:hover {
+    background: #b8962e;
+    transform: translateY(-4px);
+}
+
+.btn-romantic {
+    background: #ff8fab;
+}
+
+.btn-romantic:hover {
+    background: #ff5d8f;
+    transform: translateY(-4px);
+}
+
+/* ===============================
+   MOMENT CARD
+=================================*/
+.moment-card,
+.moment-card-pink {
+    border-radius: 20px;
+    overflow: hidden;
+    transition: 0.4s ease;
+}
+
+.moment-card {
+    box-shadow: 0px 15px 35px rgba(0,0,0,0.1);
+}
+
+.moment-card-pink {
+    box-shadow: 0 10px 25px rgba(255, 143, 171, 0.2);
+}
+
+.moment-card:hover,
+.moment-card-pink:hover {
+    transform: translateY(-12px);
+    box-shadow: 0px 25px 50px rgba(0,0,0,0.2);
+}
+
+.moment-card img,
+.moment-card-pink img {
+    height: 260px;
+    object-fit: cover;
+}
+
+/* ===============================
+   COUNTDOWN
+=================================*/
+.countdown-box,
+.countdown-box-pink {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* ===============================
+   LOVE LETTER
+=================================*/
+.love-letter-section {
+    padding: 100px 0;
+    background: #fff0f5;
+}
+
+.love-card {
+    background: white;
+    padding: 50px;
+    border-radius: 25px;
+    max-width: 700px;
+    margin: auto;
+    box-shadow: 0 20px 50px rgba(255, 143, 171, 0.2);
+}
+
+/* ===============================
+   FLOATING BUTTON
+=================================*/
+.upload-btn,
+.upload-btn-pink {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    padding: 14px 30px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.3s ease;
+    z-index: 1000;
+}
+
+.upload-btn {
+    background: #d4af37;
+    color: white;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+}
+
+.upload-btn:hover {
+    background: #b8962e;
+    transform: translateY(-6px);
+}
+
+.upload-btn-pink {
+    background: #ff8fab;
+    color: white;
+    box-shadow: 0 10px 25px rgba(255, 143, 171, 0.3);
+}
+
+.upload-btn-pink:hover {
+    background: #ff5d8f;
+    transform: translateY(-6px);
+}
+
+/* ===============================
+   MONTHLY CELEBRATION
+=================================*/
+.monthly-celebration {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 182, 193, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    animation: fadeIn 0.8s ease;
+}
+
+.celebration-box {
+    background: white;
+    padding: 60px;
+    border-radius: 30px;
+    text-align: center;
+    max-width: 600px;
+    box-shadow: 0 25px 60px rgba(255, 105, 180, 0.3);
+    animation: scaleUp 0.6s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes scaleUp {
+    from { transform: scale(0.85); }
+    to { transform: scale(1); }
+}
+
+/* ===============================
+   CONFETTI
+=================================*/
+.confetti {
+    position: fixed;
+    top: -10px;
+    width: 10px;
+    height: 10px;
+    background: pink;
+    animation: fall linear forwards;
+    z-index: 9998;
+}
+
+@keyframes fall {
+    to {
+        transform: translateY(100vh);
+        opacity: 0;
+    }
+}
+
+/* ===============================
+   FADE ANIMATION
+=================================*/
+.fade-in {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1s ease;
+}
+
+.fade-in.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ===============================
+   RESPONSIVE
+=================================*/
+@media (max-width: 768px) {
+    .hero-content h1 {
+        font-size: 2.2rem;
+    }
+
+    .hero-content p {
+        font-size: 1rem;
+    }
+
+    .section {
+        padding: 70px 0;
+    }
+
+    .moment-card img,
+    .moment-card-pink img {
+        height: 200px;
+    }
+}
+
+/* ===============================
+   NAVBAR ESTETIK
+=================================*/
+.navbar-custom {
+    width: 100%;
+    padding: 20px 0;
+    transition: 0.4s ease;
+    z-index: 2000;
+}
+
+.navbar-scrolled {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+}
+
+.nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    text-decoration: none;
+    color: white;
+    transition: 0.3s;
+}
+
+.navbar-scrolled .nav-logo {
+    color: #6a1b4d;
+}
+
+.nav-menu {
+    list-style: none;
+    gap: 40px;
+    margin: 0;
+}
+
+.nav-menu li a {
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    position: relative;
+    transition: 0.3s;
+}
+
+.navbar-scrolled .nav-menu li a {
+    color: #6a1b4d;
+}
+
+/* Underline animation */
+.nav-menu li a::after {
+    content: "";
+    width: 0;
+    height: 2px;
+    background: #ff8fab;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+}
+
+.nav-menu li a:hover::after {
+    width: 100%;
+}
+
+/* Mobile */
+.mobile-toggle {
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: white;
+}
+
+.navbar-scrolled .mobile-toggle {
+    color: #6a1b4d;
+}
+
+.mobile-menu {
+    display: none;
+    flex-direction: column;
+    background: white;
+    padding: 20px;
+    text-align: center;
+    gap: 15px;
+}
+
+.mobile-menu a {
+    text-decoration: none;
+    color: #6a1b4d;
+    font-weight: 500;
+}
+
+.mobile-menu.show {
+    display: flex;
+}
+
+/* ===============================
+   ROMANTIC FORM
+=================================*/
+.romantic-card {
+    background: rgba(255,255,255,0.85);
+    backdrop-filter: blur(15px);
+    border-radius: 25px;
+    box-shadow: 0 20px 50px rgba(255, 143, 171, 0.2);
+}
+
+.romantic-input {
+    border-radius: 15px;
+    padding: 12px 15px;
+    border: 1px solid #f8c8dc;
+    transition: 0.3s;
+}
+
+.romantic-input:focus {
+    border-color: #ff8fab;
+    box-shadow: 0 0 0 0.2rem rgba(255, 143, 171, 0.2);
+}
+
+.upload-box {
+    border: 2px dashed #ffb3c6;
+    border-radius: 20px;
+    background: #fff;
+    transition: 0.3s;
+}
+
+.upload-box:hover {
+    background: #fff0f5;
+    border-color: #ff8fab;
+}
+
+.upload-label {
+    cursor: pointer;
+    font-weight: 500;
+    color: #ff5d8f;
+}
+
+.hover-scale {
+    transition: all 0.35s ease;
+}
+
+.hover-scale:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 35px rgba(0,0,0,0.15);
+}
+
+.moment-card-pink {
+    border-radius: 18px;
+    background: #fff;
+}
+
+/* Background Soft */
+.romantic-countdown-section {
+    background: linear-gradient(135deg, #ffe6f0, #fff5fa);
+    border-radius: 25px;
+}
+
+/* Card Style */
+.countdown-card {
+    background: white;
+    padding: 25px 15px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(255, 105, 180, 0.15);
+    transition: all 0.3s ease;
+}
+
+.countdown-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 45px rgba(255, 105, 180, 0.25);
+}
+
+/* Number Style */
+.count-number {
+    font-size: 40px;
+    font-weight: 700;
+    color: #ff4d88;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Animation when changing */
+.flip {
+    transform: scale(1.2);
+    opacity: 0.6;
+}
+
+/* Background Soft */
+.anniversary-section {
+    background: linear-gradient(135deg, #fff0f6, #ffe6f0);
+    border-radius: 30px;
+}
+
+/* Timeline Wrapper */
+.timeline-wrapper {
+    position: relative;
+    margin: 0 auto;
+    max-width: 700px;
+    padding-left: 30px;
+    border-left: 3px solid #ff85a2;
+}
+
+/* Item */
+.timeline-item {
+    position: relative;
+    margin-bottom: 40px;
+}
+
+/* Dot */
+.timeline-dot {
+    position: absolute;
+    left: -11px;
+    top: 5px;
+    width: 18px;
+    height: 18px;
+    background: #ff4d88;
+    border-radius: 50%;
+    box-shadow: 0 0 10px rgba(255, 77, 136, 0.6);
+}
+
+/* Milestone Dot */
+.milestone-dot {
+    background: gold;
+    box-shadow: 0 0 15px gold;
+}
+
+/* Card */
+.timeline-card {
+    background: white;
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    transition: all 0.3s ease;
+}
+
+/* Hover Effect */
+.timeline-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 20px 45px rgba(0,0,0,0.15);
+}
+
+/* Milestone Card */
+.milestone-card {
+    border: 2px solid gold;
+    background: #fff9e6;
+}
+
+/* SECTION */
+.moment-section {
+    background: linear-gradient(180deg, #fff 0%, #fff9fb 100%);
+}
+
+/* TITLE */
+.section-title {
+    font-weight: 700;
+    font-size: 2rem;
+    letter-spacing: 0.5px;
+}
+
+.title-accent {
+    color: #e83e8c;
+}
+
+/* LINK */
+.moment-link {
+    text-decoration: none;
+    color: inherit;
+}
+
+/* CARD */
+.moment-card {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    transition: all 0.4s ease;
+    box-shadow: 0 10px 30px rgba(232, 62, 140, 0.08);
+}
+
+.moment-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(232, 62, 140, 0.15);
+}
+
+/* IMAGE */
+.moment-image-wrapper {
+    position: relative;
+    overflow: hidden;
+}
+
+.moment-image {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    transition: transform 0.6s ease;
+}
+
+.moment-card:hover .moment-image {
+    transform: scale(1.08);
+}
+
+/* OVERLAY */
+.moment-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.25), transparent);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.moment-card:hover .moment-overlay {
+    opacity: 1;
+}
+
+/* CONTENT */
+.moment-title {
+    font-weight: 600;
+    font-size: 1.1rem;
+    color: #2c2c2c;
+}
+
+.moment-desc {
+    font-size: 0.9rem;
+    color: #6c757d;
+    height: 45px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.moment-date {
+    font-size: 0.8rem;
+    color: #adb5bd;
+    margin-top: 10px;
+}
+
+/* EMPTY */
+.empty-state {
+    opacity: 0.8;
+}
+
+.empty-icon {
+    font-size: 3rem;
+}
