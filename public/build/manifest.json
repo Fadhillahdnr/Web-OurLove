@@ -1,0 +1,21 @@
+{
+  "public/images/hero.jpeg": {
+    "file": "assets/hero-CEQ1asRW.jpeg",
+    "src": "public/images/hero.jpeg"
+  },
+  "resources/css/app.css": {
+    "file": "assets/app-Coe57ljM.css",
+    "src": "resources/css/app.css",
+    "isEntry": true,
+    "name": "app",
+    "names": [
+      "app.css"
+    ]
+  },
+  "resources/js/app.js": {
+    "file": "assets/app-D74zVzFh.js",
+    "name": "app",
+    "src": "resources/js/app.js",
+    "isEntry": true
+  }
+}
