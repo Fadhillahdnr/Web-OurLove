@@ -626,3 +626,25 @@ body {
 .empty-icon {
     font-size: 3rem;
 }
+
+.romantic-modal{
+    border-radius:20px;
+    background:linear-gradient(135deg,#fff0f6,#ffe6f0);
+    border:none;
+}
+
+.romantic-modal .form-control{
+    border-radius:12px;
+}
+
+.romantic-modal textarea{
+    resize:none;
+}
+
+.modal {
+    z-index: 2000 !important;
+}
+
+.modal-backdrop {
+    z-index: 1990 !important;
+}

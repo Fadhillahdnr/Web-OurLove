@@ -16,6 +16,7 @@ class MomentController extends Controller
 
     public function __construct()
     {
+        // tanggal jadian
         $this->startDate = Carbon::createFromDate(2024, 9, 28)->startOfDay();
     }
 
@@ -51,26 +52,23 @@ class MomentController extends Controller
             'media.*' => 'nullable|file|max:20000'
         ]);
 
-        // Generate Slug
         $slug = $this->generateUniqueSlug($request->title);
 
         /* =========================
-           Upload Thumbnail (Cloudinary)
+           Upload Thumbnail
         ========================= */
-        $thumbnailUpload = cloudinary()
-            ->uploadApi()
-            ->upload(
-                $request->file('image')->getRealPath(),
-                [
-                    'folder' => 'love-website/moments',
-                    'transformation' => [
-                        'quality' => 'auto',
-                        'fetch_format' => 'auto',
-                        'width' => 1200,
-                        'crop' => 'limit'
-                    ]
+        $thumbnailUpload = cloudinary()->uploadApi()->upload(
+            $request->file('image')->getRealPath(),
+            [
+                'folder' => 'love-website/moments',
+                'transformation' => [
+                    'quality' => 'auto',
+                    'fetch_format' => 'auto',
+                    'width' => 1200,
+                    'crop' => 'limit'
                 ]
-            );
+            ]
+        );
 
         $moment = Moment::create([
             'title' => $request->title,
@@ -90,21 +88,19 @@ class MomentController extends Controller
 
                 $isVideo = str_contains($file->getMimeType(), 'video');
 
-                $upload = cloudinary()
-                    ->uploadApi()
-                    ->upload(
-                        $file->getRealPath(),
-                        [
-                            'folder' => 'love-website/moments/media',
-                            'resource_type' => $isVideo ? 'video' : 'image',
-                            'transformation' => $isVideo ? [] : [
-                                'quality' => 'auto',
-                                'fetch_format' => 'auto',
-                                'width' => 1200,
-                                'crop' => 'limit'
-                            ]
+                $upload = cloudinary()->uploadApi()->upload(
+                    $file->getRealPath(),
+                    [
+                        'folder' => 'love-website/moments/media',
+                        'resource_type' => $isVideo ? 'video' : 'image',
+                        'transformation' => $isVideo ? [] : [
+                            'quality' => 'auto',
+                            'fetch_format' => 'auto',
+                            'width' => 1200,
+                            'crop' => 'limit'
                         ]
-                    );
+                    ]
+                );
 
                 MomentMedia::create([
                     'moment_id' => $moment->id,
@@ -140,16 +136,14 @@ class MomentController extends Controller
     }
 
     /* =====================================================
-       DELETE MOMENT (HAPUS DARI CLOUDINARY JUGA)
+       DELETE MOMENT
     ===================================================== */
     public function destroy(Moment $moment)
     {
-        // Delete thumbnail
         if ($moment->image_public_id) {
             Cloudinary::destroy($moment->image_public_id);
         }
 
-        // Delete media
         foreach ($moment->media as $media) {
             if ($media->public_id) {
                 Cloudinary::destroy($media->public_id);
@@ -164,29 +158,51 @@ class MomentController extends Controller
     }
 
     /* =====================================================
-       ANNIVERSARY
+       CELEBRATE MONTHVERSARY (FORM POPUP)
     ===================================================== */
-    public function celebrate()
+    public function celebrate(Request $request)
     {
-        $today = now()->startOfDay();
-
-        if ($today->day < 28) {
-            return redirect('/')->with('error', 'Belum tanggal 28 💕');
-        }
-
-        $monthCount = $this->startDate->diffInMonths($today) + 1;
-
-        if (AnniversaryLog::where('month_number', $monthCount)->exists()) {
-            return redirect('/')->with('error', 'Sudah dirayakan bulan ini 💖');
-        }
-
-        AnniversaryLog::create([
-            'date' => $today->toDateString(),
-            'month_number' => $monthCount,
-            'message' => $this->generateAnniversaryMessage($monthCount)
+        $request->validate([
+            'date' => 'required|date',
+            'message' => 'nullable|string',
+            'month_number' => 'nullable|integer'
         ]);
 
-        return redirect('/')->with('success', 'Happy Monthversary 💖');
+        $date = Carbon::parse($request->date)->startOfDay();
+
+        /* =========================
+           Cek tanggal 28
+        ========================= */
+        if ($date->day != 28) {
+            return redirect()->back()
+                ->with('error', 'Monthversary hanya bisa dirayakan tanggal 28 💕');
+        }
+
+        /* =========================
+           Hitung Month Number
+        ========================= */
+        $monthCount = $this->startDate->diffInMonths($date) + 1;
+
+        /* =========================
+           Cek sudah dirayakan atau belum
+        ========================= */
+        if (AnniversaryLog::where('month_number', $monthCount)->exists()) {
+            return redirect()->back()
+                ->with('error', 'Monthversary bulan ini sudah dirayakan 💖');
+        }
+
+        /* =========================
+           Simpan ke database
+        ========================= */
+        AnniversaryLog::create([
+            'date' => $date->toDateString(),
+            'month_number' => $monthCount,
+            'message' => $request->message 
+                ?? $this->generateAnniversaryMessage($monthCount)
+        ]);
+
+        return redirect('/')
+            ->with('success', 'Happy Monthversary ke-'.$monthCount.' 💖');
     }
 
     /* =====================================================
@@ -210,7 +226,7 @@ class MomentController extends Controller
     }
 
     /* =====================================================
-       ANNIVERSARY MESSAGE
+       DEFAULT ANNIVERSARY MESSAGE
     ===================================================== */
     private function generateAnniversaryMessage($month)
     {

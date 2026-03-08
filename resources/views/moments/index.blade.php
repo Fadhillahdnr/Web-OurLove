@@ -24,15 +24,23 @@
 @endif
 
 {{-- ==============================
-   HERO SECTION (CINEMATIC)
+   HERO SECTION
 ================================ --}}
 <section class="hero">
     <div class="hero-content">
+
         @if(session('success'))
         <div class="alert alert-success text-center">
             {{ session('success') }}
         </div>
         @endif
+
+        @if(session('error'))
+        <div class="alert alert-danger text-center">
+            {{ session('error') }}
+        </div>
+        @endif
+
         <h4 class="date-text mb-3">28 September</h4>
         <h1 class="main-title mb-3">Fadhillah & Regina</h1>
         <p class="subtitle mb-4">Every month, every year, always you 💖</p>
@@ -40,6 +48,7 @@
         <a href="#content" class="btn btn-romantic">
             See Our Moments
         </a>
+
     </div>
 </section>
 
@@ -50,7 +59,7 @@
 ================================ --}}
 <section id="content" class="section container text-center">
 
-    {{-- Countdown Premium --}}
+    {{-- Countdown --}}
     <div class="fade-in romantic-countdown-section text-center py-5">
 
         <h2 class="section-title mb-2">
@@ -76,19 +85,23 @@
 
     </div>
 
+    {{-- Moments --}}
     @include('pages.our-moment')
 
+    {{-- Button Monthversary --}}
     <div class="text-center my-5">
-        <form action="{{ route('celebrate') }}" method="POST">
-            @csrf
-            <button type="submit" class="btn btn-lg btn-romantic shadow">
-                💖 Ucapkan Monthversary
-            </button>
-        </form>
+        <button 
+            class="btn btn-lg btn-romantic shadow"
+            data-bs-toggle="modal"
+            data-bs-target="#monthversaryModal"
+        >
+            💖 Ucapkan Monthversary
+        </button>
     </div>
 
+    {{-- Riwayat Monthversary --}}
     @include('pages.riwayat-month')
-    
+
 </section>
 
 
@@ -101,14 +114,115 @@
 
 
 {{-- ==============================
+   MODAL FORM MONTHVERSARY
+================================ --}}
+<div class="modal fade" id="monthversaryModal" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content romantic-modal">
+
+      <div class="modal-header border-0">
+        <h5 class="modal-title">
+            💖 Ucapan Monthversary
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+      </div>
+
+      <form action="{{ route('celebrate') }}" method="POST">
+        @csrf
+
+        <div class="modal-body">
+
+            <div class="mb-3">
+                <label class="form-label">Tanggal</label>
+                <input 
+                    type="date"
+                    name="date"
+                    class="form-control"
+                    value="{{ now()->toDateString() }}"
+                    required
+                >
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Month Ke</label>
+                <input 
+                    type="number"
+                    name="month_number"
+                    class="form-control"
+                    placeholder="Contoh: 5"
+                >
+            </div>
+
+            <div class="mb-3">
+                <label class="form-label">Pesan</label>
+                <textarea 
+                    name="message"
+                    class="form-control"
+                    rows="4"
+                    placeholder="Tulis ucapan monthversary kamu disini..."
+                ></textarea>
+            </div>
+
+        </div>
+
+        <div class="modal-footer border-0">
+
+            <button 
+                type="button" 
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+            >
+                Batal
+            </button>
+
+            <button 
+                type="submit"
+                class="btn btn-romantic"
+            >
+                💌 Kirim Ucapan
+            </button>
+
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+</div>
+
+
+{{-- ==============================
+   STYLE MODAL
+================================ --}}
+<style>
+
+.romantic-modal{
+    border-radius:20px;
+    background:linear-gradient(135deg,#fff0f6,#ffe6f0);
+    border:none;
+}
+
+.romantic-modal .form-control{
+    border-radius:12px;
+}
+
+.romantic-modal textarea{
+    resize:none;
+}
+
+</style>
+
+
+{{-- ==============================
    SCRIPT
 ================================ --}}
 <script>
+
 function closeCelebration() {
     document.getElementById('monthlyCelebration').style.display = 'none';
 }
 
-/* Fade In On Scroll */
+/* Fade In Animation */
 document.addEventListener("scroll", function() {
     document.querySelectorAll(".fade-in").forEach(el => {
         if (el.getBoundingClientRect().top < window.innerHeight - 100) {
@@ -117,9 +231,20 @@ document.addEventListener("scroll", function() {
     });
 });
 
+/* ==============================
+   COUNTDOWN
+================================ */
+
 function getNext28th() {
+
     const now = new Date();
-    let next = new Date(now.getFullYear(), now.getMonth(), 28, 0, 0, 0);
+
+    let next = new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        28,
+        0,0,0
+    );
 
     if (now.getDate() >= 28) {
         next.setMonth(next.getMonth() + 1);
@@ -152,20 +277,25 @@ function updateCountdown() {
 }
 
 function animateNumber(id, value) {
+
     const el = document.getElementById(id);
 
     if (el.innerHTML != value) {
+
         el.classList.add("flip");
 
         setTimeout(() => {
-            el.innerHTML = String(value).padStart(2, '0');
+
+            el.innerHTML = String(value).padStart(2,'0');
             el.classList.remove("flip");
-        }, 150);
+
+        },150);
     }
 }
 
-setInterval(updateCountdown, 1000);
+setInterval(updateCountdown,1000);
 updateCountdown();
+
 </script>
 
 @endsection
