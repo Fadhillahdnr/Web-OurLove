@@ -158,51 +158,45 @@ class MomentController extends Controller
     }
 
     /* =====================================================
-       CELEBRATE MONTHVERSARY (FORM POPUP)
+    CELEBRATE MONTHVERSARY (FORM POPUP)
     ===================================================== */
     public function celebrate(Request $request)
     {
         $request->validate([
             'date' => 'required|date',
-            'message' => 'nullable|string',
-            'month_number' => 'nullable|integer'
+            'message' => 'nullable|string'
         ]);
 
         $date = Carbon::parse($request->date)->startOfDay();
 
-        /* =========================
-           Cek tanggal 28
-        ========================= */
         if ($date->day != 28) {
             return redirect()->back()
                 ->with('error', 'Monthversary hanya bisa dirayakan tanggal 28 💕');
         }
 
-        /* =========================
-           Hitung Month Number
-        ========================= */
-        $monthCount = $this->startDate->diffInMonths($date) + 1;
+        
+        $monthCount = $this->startDate->diffInMonths($date);
 
-        /* =========================
-           Cek sudah dirayakan atau belum
-        ========================= */
+        if ($monthCount < 1) {
+            return redirect()->back()
+                ->with('error', 'Monthversary pertama dimulai tanggal 28 Oktober 2024 💖');
+        }
+
+        
         if (AnniversaryLog::where('month_number', $monthCount)->exists()) {
             return redirect()->back()
                 ->with('error', 'Monthversary bulan ini sudah dirayakan 💖');
         }
 
-        /* =========================
-           Simpan ke database
-        ========================= */
         AnniversaryLog::create([
             'date' => $date->toDateString(),
             'month_number' => $monthCount,
-            'message' => $request->message 
+            'message' => $request->message
                 ?? $this->generateAnniversaryMessage($monthCount)
         ]);
 
         return redirect('/')
-            ->with('success', 'Happy Monthversary ke-'.$monthCount.' 💖');
+            ->with('success', 'Happy Monthversary ke-' . $monthCount . ' 💖');
     }
 
     /* =====================================================
